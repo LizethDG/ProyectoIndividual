@@ -15,19 +15,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF (opcional)
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/login", "/register", "/css/**", "/js/**", "/images/**").permitAll() // Permitir acceso público
-                        .anyRequest().authenticated() // Requerir autenticación para cualquier otra ruta
+                        .requestMatchers("/login", "/register", "/css/**", "/js/**", "/images/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login") // Página de login personalizada
-                        .defaultSuccessUrl("/home", true) // Redirigir a /home después del login exitoso
-                        .failureUrl("/login?error=true") // Redirigir en caso de error
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/home", true)
+                        .failureUrl("/login?error=true")
                         .permitAll()
                 )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login") // Página de login personalizada
+                        .defaultSuccessUrl("/home", true) // Redirigir a /home después del login exitoso
+                )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout=true") // Redirigir después del logout
+                        .logoutSuccessUrl("/login?logout=true")
                         .permitAll()
                 );
 
