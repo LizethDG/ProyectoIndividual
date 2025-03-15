@@ -142,3 +142,14 @@ spring.security.oauth2.client.registration.google.client-secret=tu-client-secret
 - Método: GET
 - Descripción: Permite al usuario iniciar sesión con su nombre de usuario y contraseña.
   ![Login](https://drive.google.com/uc?export=view&id=1SI6va2Kd1SVuqiyS3RqjTOT6jltgoAQh)
+
+#### 3. Home
+- URL: /home
+- Descripción: Permite al usuario visualizar un panel principal y acceder a su peril. Además, si cuenta con privilegios de admnistrador tendrá un menú especial.
+- ![image](https://github.com/user-attachments/assets/dc0d2417-9060-47b1-8b56-1ab341b804e7)
+
+#### 4. Perfil
+- URL: /perfil
+- Descripción: Se muestra la información del usuario y permite actualizar sus datos.
+- ![image](https://github.com/user-attachments/assets/9b176b31-1282-444e-b19f-dd3588b7f289)
+
