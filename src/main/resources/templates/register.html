@@ -6,34 +6,94 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('/images/fondo_PIndividual.jpg') no-repeat center center;
+            background-size: cover; /* Mantener la proporción sin distorsión */
+            background-position: center; /* Asegura que el centro de la imagen esté siempre visible */
+            font-family: Arial, sans-serif;
+            color: white;
+            background-attachment: fixed; /* Fija la imagen al fondo para que no se mueva con el scroll */
         }
+
+
         .register-container {
             max-width: 400px;
-            margin: 100px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            padding: 30px;
+            background-color: rgba(153, 81, 22, 0.88);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1.5s ease-out;
         }
+
         .register-container h2 {
             text-align: center;
             margin-bottom: 20px;
-        }
-        .form-control {
-            margin-bottom: 15px;
-        }
-        .btn-register {
-            width: 100%;
-            background-color: #28a745;
+            font-size: 2rem;
             color: white;
         }
-        .btn-register:hover {
-            background-color: #218838;
+
+        .form-group label {
+            font-weight: bold;
         }
+
+        .form-control {
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #ff6600; /* Naranja */
+            box-shadow: 0 0 10px rgba(255, 102, 0, 0.5); /* Naranja */
+        }
+
+        .btn-register {
+            width: 100%;
+            background-color: #ff6600; /* Naranja */
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-register:hover {
+            background-color: #e65c00; /* Naranja oscuro */
+            transform: scale(1.05);
+        }
+
         .login-link {
             text-align: center;
             margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .login-link a {
+            color: #ff6600; /* Naranja */
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animación de desvanecimiento */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>

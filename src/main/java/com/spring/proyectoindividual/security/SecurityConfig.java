@@ -17,8 +17,9 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/login", "/register", "/css/**", "/js/**", "/images/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/login", "/register", "/css/**", "/js/**", "/images/**").permitAll() // Solo estas rutas son públicas
+                        .requestMatchers("/perfil").authenticated()  // Aseguramos que solo los usuarios autenticados pueden acceder a "/perfil"
+                        .anyRequest().authenticated()  // Cualquier otra ruta también requiere autenticación
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

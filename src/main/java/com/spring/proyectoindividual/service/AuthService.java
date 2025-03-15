@@ -32,16 +32,13 @@ public class AuthService {
         // Codificar la contraseña
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // Guardar el usuario (el rol ya debería estar asignado en el controlador)
-        System.out.println("Registrando usuario con rol: " + user.getRole());
-        userRepository.save(user);
-
         // Si no se especificó un rol, establecer USER por defecto
         if (user.getRole() == null) {
             user.setRole(Role.USER);
         }
 
-
-        userRepository.save(user);
+        // Guardar el usuario (el rol ya debería estar asignado)
+        System.out.println("Registrando usuario con rol: " + user.getRole());
+        userRepository.save(user);  // Guardar una sola vez
     }
 }
