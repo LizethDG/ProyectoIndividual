@@ -153,3 +153,9 @@ spring.security.oauth2.client.registration.google.client-secret=tu-client-secret
 - Descripción: Se muestra la información del usuario y permite actualizar sus datos.
 - ![image](https://github.com/user-attachments/assets/9b176b31-1282-444e-b19f-dd3588b7f289)
 
+## Aplicación dockerizada
+-En la url se muestra el nuevo puerto que utiliza docker (9090)
+![image](https://github.com/user-attachments/assets/008ef449-a62e-48f1-976b-078460628013)
+- Imagen el docker desktop
+- ![image](https://github.com/user-attachments/assets/068aebec-a35f-4405-ab3a-b43a9fcc0b97)
+
