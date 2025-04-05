@@ -1,121 +1,199 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Editar Perfil</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil</title>
+</head>
+<style>
     body {
-      background-image: url('/images/Fondo_perfil.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
+        background-image: url('/images/Fondo_perfil.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
     }
     .profile-container {
-      max-width: 600px;
-      margin: auto;
-      padding: 20px;
-      background: linear-gradient(to right, #ff7e5f, #feb47b); /* Colores de atardecer */
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      color: white;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        background: linear-gradient(to right, #ff7e5f, #feb47b); /* Colores de atardecer */
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        color: white;
     }
     .profile-header {
-      text-align: center;
-      margin-bottom: 20px;
-      font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
     }
     .btn-update {
-      width: 100%;
-      background-color: #ff6f61;
-      color: white;
-      border: none;
-      padding: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 5px;
+        width: 100%;
+        background-color: #ff6f61;
+        color: white;
+        border: none;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
     }
     .btn-update:hover {
-      background-color: #ff3d30;
+        background-color: #ff3d30;
     }
     .profile-img {
-      width: 150px;
-      height: 150px;
-      object-fit: cover;
-      border: 3px solid white;
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border: 3px solid white;
     }
-  </style>
-</head>
+</style>
 <body>
-<div class="profile-container">
-  <h2 class="profile-header">Editar Perfil</h2>
-
-  <!-- Mostrar posibles errores o mensajes de éxito -->
-  <div th:if="${error}" class="alert alert-danger" role="alert">
-    <p th:text="${error}"></p>
-  </div>
-  <div th:if="${message}" class="alert alert-success" role="alert">
-    <p th:text="${message}"></p>
-  </div>
-
-  <!-- Mostrar Imagen de Perfil -->
-  <div class="text-center mb-4">
-    <h3>Imagen de Perfil</h3>
-    <div th:if="${user.profilePicture != null}">
-      <!-- Añadir un log para depuración -->
-      <div th:text="'Imagen actual: ' + ${user.profilePicture}" style="display: none;"></div>
-      <img th:src="@{'/uploads/' + ${user.profilePicture}}"
-           alt="Imagen de perfil" class="img-fluid rounded-circle profile-img">
+    <div class="header">
+        <h1>Sistema de Recomendaciones</h1>
     </div>
-    <div th:if="${user.profilePicture == null}">
-      <div class="alert alert-info">No tienes una imagen de perfil.</div>
+    
+    <div class="container">
+        <h2>Mi Perfil</h2>
+        
+        <div class="profile-header">
+            <div class="profile-image">
+                <!-- Si el usuario tiene imagen, mostrarla -->
+                <img th:if="${tieneImagen}" th:src="@{'/usuario/imagen/' + ${usuario.id}}" id="profileImage" alt="Foto de perfil" />
+                <!-- Si no tiene imagen, mostrar icono por defecto -->
+                <span th:unless="${tieneImagen}">👤</span>
+                
+                <!-- Botón para cambiar la imagen -->
+                <label for="fileInput" class="profile-image-upload">+</label>
+                <input type="file" id="fileInput" accept="image/*" class="hidden" />
+            </div>
+            <p class="profile-name" th:text="${usuario.nombre}">Usuario</p>
+            <p class="profile-email" th:text="${usuario.email}">usuario@ejemplo.com</p>
+        </div>
+        
+        <!-- Tabs para separar las secciones -->
+        <div class="tabs">
+            <div class="tab" data-tab="info">Información Personal</div>
+            <div class="tab" data-tab="password">Cambiar Contraseña</div>
+            <div class="tab" data-tab="image">Cambiar Imagen</div>
+        </div>
+        
+        <!-- Tab de Información Personal -->
+        <div id="infoTab" class="tab-content">
+            <form action="/perfil/actualizar-info" method="post">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" th:value="${usuario.nombre}" placeholder="Tu nombre" required />
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" th:value="${usuario.email}" placeholder="Tu email" required />
+                </div>
+                
+                <div class="buttons">
+                    <a href="/home" class="btn btn-secondary">Volver</a>
+                    <button type="submit" class="btn btn-primary">Actualizar Información</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Tab de Cambiar Contraseña -->
+        <div id="passwordTab" class="tab-content">
+            <form action="/perfil/actualizar-password" method="post">
+                <div class="form-group">
+                    <label for="password">Nueva Contraseña</label>
+                    <input type="password" id="password" name="password" placeholder="Ingresa tu nueva contraseña" required />
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Contraseña</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirma tu nueva contraseña" required />
+                </div>
+                
+                <div class="form-group">
+                    <label for="currentPassword">Contraseña Actual</label>
+                    <input type="password" id="currentPassword" name="currentPassword" placeholder="Ingresa tu contraseña actual" required />
+                </div>
+                
+                <div class="buttons">
+                    <a href="/home" class="btn btn-secondary">Volver</a>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Tab de Cambiar Imagen -->
+        <div id="imageTab" class="tab-content">
+            <form action="/perfil/actualizar-imagen" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="imagenPerfil">Selecciona una nueva imagen de perfil</label>
+                    <input type="file" id="imagenPerfil" name="imagen" accept="image/*" required />
+                </div>
+                
+                <div class="buttons">
+                    <a href="/home" class="btn btn-secondary">Volver</a>
+                    <button type="submit" class="btn btn-primary">Subir Imagen</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Mensaje de resultado -->
+        <div th:if="${mensaje}" class="mensaje" th:classappend="${tipoMensaje == 'error'} ? 'mensaje-error' : 'mensaje-exito'" th:text="${mensaje}">
+        </div>
     </div>
-  </div>
-
-  <!-- Formulario para actualizar el perfil -->
-  <form th:action="@{/perfil/update}" method="post" th:object="${user}" enctype="multipart/form-data">
-    <div class="form-group mb-3">
-      <label for="username">Nombre de Usuario</label>
-      <input type="text" class="form-control" id="username" name="username" th:value="*{username}" required>
-    </div>
-
-    <div class="form-group mb-3">
-      <label for="email">Correo Electrónico</label>
-      <input type="email" class="form-control" id="email" name="email" th:value="*{email}" required>
-    </div>
-
-    <div class="form-group mb-4">
-      <label for="profilePicture">Foto de Perfil</label>
-      <input type="file" class="form-control" id="profilePicture" name="profilePicture" accept="image/*">
-      <small class="form-text text-light">Formatos aceptados: JPG, PNG, GIF. Tamaño máximo: 5MB</small>
-    </div>
-
-    <button type="submit" class="btn btn-update mb-4">Actualizar Perfil</button>
-  </form>
-
-  <!-- Formulario para actualizar la contraseña -->
-  <div class="mt-4">
-    <h3 class="text-center">Cambiar Contraseña</h3>
-    <form th:action="@{/perfil/update-password}" method="post">
-      <div class="form-group mb-3">
-        <label for="oldPassword">Contraseña Actual</label>
-        <input type="password" class="form-control" id="oldPassword" name="oldPassword" required>
-      </div>
-
-      <div class="form-group mb-3">
-        <label for="newPassword">Nueva Contraseña</label>
-        <input type="password" class="form-control" id="newPassword" name="newPassword" required>
-      </div>
-
-      <div class="form-group mb-3">
-        <label for="confirmPassword">Confirmar Nueva Contraseña</label>
-        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-      </div>
-
-      <button type="submit" class="btn btn-update">Actualizar Contraseña</button>
-    </form>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar la primera tab como activa por defecto
+            document.querySelector('.tab[data-tab="info"]').classList.add('active');
+            document.getElementById('infoTab').classList.add('active');
+            
+            // Cambio de tabs
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Quitar clases active
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Añadir clase active al tab clickeado y su contenido
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId + 'Tab').classList.add('active');
+                });
+            });
+            
+            // Cargar la imagen de perfil
+            const profileImage = document.getElementById('profileImage');
+            if (profileImage) {
+                const userId = profileImage.src.split('/').pop();
+                fetch(`/usuario/imagen/${userId}`)
+                    .then(response => response.text())
+                    .then(base64Image => {
+                        if (base64Image && base64Image.length > 0) {
+                            profileImage.src = `data:image/jpeg;base64,${base64Image}`;
+                        }
+                    })
+                    .catch(error => console.error('Error cargando la imagen:', error));
+            }
+            
+            // Mostrar imagen seleccionada en miniatura
+            const fileInput = document.getElementById('fileInput');
+            fileInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        // Redirigir a la tab de imagen
+                        document.querySelector('.tab[data-tab="image"]').click();
+                        // Establecer la imagen seleccionada en el input del formulario
+                        document.getElementById('imagenPerfil').files = fileInput.files;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
